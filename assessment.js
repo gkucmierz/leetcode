@@ -83,3 +83,46 @@ findPeakElement([1,2,3,1]);
 findPeakElement([1,2,1,3,5,6,4]);
 findPeakElement([0,1,2,3,4]);
 findPeakElement([4,3,2,1,0]);
+
+
+
+/**
+ * @param {number[]} bulbs
+ * @param {number} k
+ * @return {number}
+ */
+const kEmptySlots = (bulbs, k) => {
+  const len = bulbs.length;
+  const arr = new Uint8Array(len);
+  for (let day = 0; day < len; ++day) {
+    const bi = bulbs[day] - 1;
+    arr[bi] = 1;
+    
+    const li = bi - k - 1;
+    if (li >= 0 && arr[li] === 1) {
+      let left = true;
+      for (let idx = li + 1; idx < bi; ++idx) {
+        if (arr[idx] === 0) continue;
+        left = false;
+        break;
+      }
+      if (left) return day + 1;
+    }
+    
+    const ri = bi + k + 1;
+    if (ri < len && arr[ri] === 1) {
+      let right = true;
+      for (let idx = ri - 1; idx > bi; --idx) {
+        if (arr[idx] === 0) continue;
+        right = false;
+        break;
+      }
+      if (right) return day + 1;
+    }
+  }
+  return -1;
+};
+
+kEmptySlots([1,3,2], 1);
+kEmptySlots([1,2,3], 1);
+kEmptySlots([3,9,2,8,1,6,10,5,4,7], 1);
