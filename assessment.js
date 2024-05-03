@@ -56,3 +56,30 @@ repeatedSubstringPattern('abab');
 repeatedSubstringPattern('aba');
 repeatedSubstringPattern('abcabcabcabc');
 
+
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+const findPeakElement = nums => {
+  const len = nums.length;
+  const get = n => n < 0 || n >= len ? -Infinity : nums[n];
+  let a = 0;
+  let b = len - 1;
+  let cnt = 100;
+  while (--cnt) {
+    const mid = Math.floor((a + b + cnt % 2) / 2);
+    if (get(mid) < get(mid+1)) {
+      a = mid;
+    } else {
+      if (get(mid-1) < get(mid)) return mid;
+      b = mid;
+    }
+  }
+};
+
+findPeakElement([1,2,3,1]);
+findPeakElement([1,2,1,3,5,6,4]);
+findPeakElement([0,1,2,3,4]);
+findPeakElement([4,3,2,1,0]);
