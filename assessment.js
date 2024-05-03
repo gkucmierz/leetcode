@@ -41,3 +41,18 @@ const divisorGame = n => {
 
 divisorGame(2);
 divisorGame(3);
+
+
+
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+const repeatedSubstringPattern = s => {
+  return /^(.+)(\1+)$/.test(s);
+};
+
+repeatedSubstringPattern('abab');
+repeatedSubstringPattern('aba');
+repeatedSubstringPattern('abcabcabcabc');
+
