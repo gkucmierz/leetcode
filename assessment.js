@@ -215,3 +215,19 @@ networkDelayTime([[1,2,1]], 2, 2), -1;
 // networkDelayTime([[2,1,1],[2,3,1],[3,4,1]], 4, 2);
 // networkDelayTime([[1,2,1],[2,3,2],[1,3,4]], 3, 1);
 // networkDelayTime([[1,2,1],[2,3,2],[1,3,1]], 3, 2);
+
+
+
+
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+const checkRecord = s => {
+  const absence = (s.match(/A/g) || []).length < 2;
+  const notLate = (s.match(/LLL/) || []).length === 0;
+  return absence && notLate;
+};
+
+checkRecord('PPALLP');
+checkRecord('PPALLL');
