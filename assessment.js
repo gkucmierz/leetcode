@@ -172,3 +172,46 @@ const nextClosestTime = time => {
 nextClosestTime('19:34');
 nextClosestTime('23:59');
 nextClosestTime('00:00');
+
+
+
+
+/**
+ * @param {number[][]} times
+ * @param {number} n
+ * @param {number} k
+ * @return {number}
+ */
+const networkDelayTime = (times, n, k) => {
+  const map = new Map();
+  times.map(([s, t, w]) => {
+    const node = map.get(s) || new Map();
+    map.set(s, node);
+    node.set(t, w);
+  });
+  const res = new Map();
+  res.set(k, 0);
+  const checkList = [[k, 0]];
+  while (checkList.length) {
+    const [node, sum] = checkList.pop();
+    [...(map.get(node) || [])].map(([target, weight]) => {
+      const dist = sum + weight;
+      const val = res.get(target);
+      if (typeof val === 'undefined' || val > dist) {
+        res.set(target, dist);
+        checkList.push([target, dist]);
+      }
+    });
+  }
+  const resArr = [...res];
+  if (resArr.length < n) return -1;
+  return Math.max(...resArr.map(([t, w]) => w), -1);
+};
+
+// networkDelayTime([[2,1,1],[2,3,1],[3,4,1]], 4, 2);
+// networkDelayTime([[1,2,1]], 2, 1), 1;
+networkDelayTime([[1,2,1]], 2, 2), -1;
+// networkDelayTime([[1,2,1],[2,1,3]], 2, 2);
+// networkDelayTime([[2,1,1],[2,3,1],[3,4,1]], 4, 2);
+// networkDelayTime([[1,2,1],[2,3,2],[1,3,4]], 3, 1);
+// networkDelayTime([[1,2,1],[2,3,2],[1,3,1]], 3, 2);
