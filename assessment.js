@@ -231,3 +231,21 @@ const checkRecord = s => {
 
 checkRecord('PPALLP');
 checkRecord('PPALLL');
+
+
+
+
+/**
+ * @param {character[]} s
+ * @return {void} Do not return anything, modify s in-place instead.
+ */
+const reverseString = s => {
+  const last = s.length - 1;
+  const mid = s.length / 2 | 0;
+  for (let i = 0; i < mid; ++i) {
+    [s[i], s[last-i]] = [s[last-i], s[i]];
+  }
+  return s;
+};
+
+reverseString(["h","e","l","l","o"]);
