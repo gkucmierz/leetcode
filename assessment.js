@@ -279,3 +279,37 @@ const maxDistToClosest = seats => {
 maxDistToClosest([1,0,0,0,1,0,1]); // 2
 maxDistToClosest([1,0,0,0]); // 3
 maxDistToClosest([0,0,0,1,0,1]); // 2
+
+
+
+
+
+/**
+ * @param {number} n
+ * @return {number}
+ */
+const rotatedDigits = (() => {
+  const isGood = n => {
+    const map = {
+      2: 5,
+      5: 2,
+      6: 9,
+      9: 6,
+    };
+    const str = n + '';
+    if (str.match(/[347]/g)) return false;
+    const rep = +str.replace(/[2569]/g, d => map[d]);
+    return rep !== n;
+  };
+  return n => {
+    let cnt = 0;
+    for (let i = 1; i <= n; ++i) {
+      if (isGood(i)) {
+        ++cnt;
+      }
+    }
+    return cnt;
+  };
+})();
+
+rotatedDigits(10); // 4
