@@ -313,3 +313,30 @@ const rotatedDigits = (() => {
 })();
 
 rotatedDigits(10); // 4
+
+
+
+
+
+const numSubmat = mat => {
+  let sub = 0;
+  let sum = 0;
+  for (let i = 0; i < mat.length; i++) {
+    for (let j = 0; j < mat[0].length; j++) {
+      mat[i][j] += mat[i][j] ? (mat[i][j - 1] || 0) : 0;
+    }
+  }
+  for (let i = 0; i < mat.length; i++) {
+    for (let j = 0; j < mat[0].length; j++) {
+      let len = Infinity;
+      for (let k = i; len > 0 && k >= 0; k--) {
+        len = Math.min(len, mat[k][j]);
+        sum += len;
+      }
+    }
+  }
+  return sum;
+};
+
+numSubmat([[1,0,1],[1,1,0],[1,1,0]]); // 13
+numSubmat([[0,1,1,0],[0,1,1,1],[1,1,1,0]]) // 24
