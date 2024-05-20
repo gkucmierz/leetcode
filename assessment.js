@@ -512,3 +512,48 @@ const maximumWealth = accounts => {
 maximumWealth([[1,2,3],[3,2,1]]);
 maximumWealth([[1,5],[7,3],[3,5]]);
 maximumWealth([[2,8,7],[7,1,3],[1,9,5]]);
+
+
+
+
+
+/**
+ * @param {number} maxNumbers
+ */
+var PhoneDirectory = function(maxNumbers) {
+  this._empty = new Map();
+  for (let i = 0; i < maxNumbers; ++i) {
+    this._empty.set(i, true);
+  }
+};
+/**
+ * @return {number}
+ */
+PhoneDirectory.prototype.get = function() {
+  const arr = [...this._empty];
+  if (arr.length === 0) return -1;
+  const first = arr[0][0];
+  this._empty.delete(first);
+  return first;
+};
+/** 
+ * @param {number} number
+ * @return {boolean}
+ */
+PhoneDirectory.prototype.check = function(number) {
+  return this._empty.has(number);
+};
+/** 
+ * @param {number} number
+ * @return {void}
+ */
+PhoneDirectory.prototype.release = function(number) {
+  this._empty.set(number, true);
+};
+/** 
+ * Your PhoneDirectory object will be instantiated and called as such:
+ * var obj = new PhoneDirectory(maxNumbers)
+ * var param_1 = obj.get()
+ * var param_2 = obj.check(number)
+ * obj.release(number)
+ */
