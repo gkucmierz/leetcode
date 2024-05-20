@@ -340,3 +340,57 @@ const numSubmat = mat => {
 
 numSubmat([[1,0,1],[1,1,0],[1,1,0]]); // 13
 numSubmat([[0,1,1,0],[0,1,1,1],[1,1,1,0]]) // 24
+
+
+
+
+/**
+ * @param {number[][]} matrix
+ * @return {number}
+ */
+const countSquares = matrix => {
+  const sums = [];
+  const takeSums = (y, x) => {
+    if (x < 0) return 0;
+    if (y < 0) return 0;
+    return sums[y][x];
+  };
+  const h = matrix.length;
+  const w = matrix[0].length;
+  for (let y = 0; y < h; ++y) {
+    sums[y] = [];
+    for (let x = 0; x < w; ++x) {
+      const up = y === 0 ? 0 : sums[y-1][x];
+      const left = x === 0 ? 0 : sums[y][x-1];
+      const upleft = (x === 0 || y === 0) ? 0 : sums[y-1][x-1];
+      sums[y][x] = matrix[y][x] + up + left - upleft;
+    }
+  }
+  const maxSize = Math.min(h, w);
+  let cnt = 0;
+  for (let size = 1; size <= maxSize; ++size) {
+    const expected = size ** 2;
+    for (let y = 0; y <= h - size; ++y) {
+      for (let x = 0; x <= w - size; ++x) {
+        const br = takeSums(y + size - 1, x + size - 1);
+        const tl = takeSums(y - 1, x - 1);
+        const tr = takeSums(y - 1, x + size - 1);
+        const bl = takeSums(y + size - 1, x - 1);
+        const sum = br + tl - tr - bl;
+        if (sum === expected) cnt++;
+      }
+    }
+  }
+  return cnt;
+};
+
+countSquares([
+  [0,1,1,1],
+  [1,1,1,1],
+  [0,1,1,1]
+]); // 15
+countSquares([
+  [1,0,1],
+  [1,1,0],
+  [1,1,0]
+]); // 7
