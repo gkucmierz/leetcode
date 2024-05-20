@@ -467,3 +467,30 @@ const guessNumber = n => {
     }
   }
 };
+
+
+
+
+
+/**
+ * // Definition for a Node.
+ * function Node(val, children) {
+ *    this.val = val === undefined ? 0 : val;
+ *    this.children = children === undefined ? [] : children;
+ * };
+ */
+
+/**
+ * @param {Node[]} tree
+ * @return {Node}
+ */
+const findRoot = nodes => {
+  const refs = new Map();
+  nodes.map(node => {
+    node.children.map(child => {
+      const cnt = refs.get(child) ?? 0;
+      refs.set(child, cnt + 1);
+    });
+  });
+  return nodes.filter(node => !refs.has(node))[0];
+};
