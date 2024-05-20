@@ -434,3 +434,36 @@ hasGroupsSizeX([1,1,1,2,2,2,3,3]);
 hasGroupsSizeX([0,0,0,1,1,1,2,2,2]);
 hasGroupsSizeX([1]);
 hasGroupsSizeX([1,1,1,1,2,2,2,2,2,2]);
+
+
+
+
+/** 
+ * Forward declaration of guess API.
+ * @param {number} num   your guess
+ * @return       -1 if num is higher than the picked number
+ *            1 if num is lower than the picked number
+ *               otherwise return 0
+ * var guess = function(num) {}
+ */
+
+/**
+ * @param {number} n
+ * @return {number}
+ */
+const guessNumber = n => {  
+  let min = 1;
+  let max = 2 ** 31 - 1;
+  let mid;
+  while (1) {
+    mid = Math.floor((min + max) / 2);
+    const res = guess(mid);
+    if (res < 0) {
+      max = mid - 1;
+    } else if (res > 0) {
+      min = mid + 1;
+    } else {
+      return mid;
+    }
+  }
+};
