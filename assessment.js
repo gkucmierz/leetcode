@@ -668,3 +668,61 @@ sa.get(1, 0);
 sa.get(0, 0);
 sa.set(1, 8);
 sa.get(1, 0);
+
+
+
+
+
+/**
+ * Definition for isBadVersion()
+ * 
+ * @param {integer} version number
+ * @return {boolean} whether the version is bad
+ * isBadVersion = function(version) {
+ *     ...
+ * };
+ */
+
+/**
+ * @param {function} isBadVersion()
+ * @return {function}
+ */
+const solution = isBadVersion => {
+  // https://github.com/gkucmierz/algorithms/blob/main/js/natural_search.js
+  const naturalSearch = (cond, retFirstTrue = true) => {
+    let min = 1;
+    let max = 1;
+    while(1) {
+      const stop = cond(max);
+      if (stop) break;
+      min = max;
+      max *= 2;
+    }
+    let mid;
+    while (1) {
+      mid = Math.floor((min + max) / 2);
+      const stop = cond(mid);
+      if (stop) {
+        max = mid;
+      } else {
+        min = mid;
+      }
+      const diff = max - min;
+      if (max - min <= 1) {
+        return retFirstTrue ? max : min;
+      }
+    }
+  };
+  /**
+   * @param {integer} n Total versions
+   * @return {integer} The first bad version
+   */
+  return function(n) {
+    return naturalSearch(isBadVersion);
+  };
+};
+
+solution(n => n >= 4)(5); // 4
+solution(n => n >= 1)(1); // 1
+solution(n => n >= 4)(4); // 1
+solution(n => n >= 2126753390)(1702766719); // 1
