@@ -557,3 +557,29 @@ PhoneDirectory.prototype.release = function(number) {
  * var param_2 = obj.check(number)
  * obj.release(number)
  */
+
+
+
+
+
+// not optimal O(n log n); can be O(n)
+/**
+ * @param {number[]} nums
+ * @return {void} Do not return anything, modify nums in-place instead.
+ */
+const wiggleSort = nums => {
+  const sort = nums.sort((a, b) => a - b);
+  let first = true;
+  const res = [];
+  while (sort.length) {
+    const num = first ? nums.shift() : nums.pop();
+    res.push(num);
+    first = !first;
+  }
+  res.map(num => nums.push(num));
+  return nums;
+};
+
+wiggleSort([3,5,2,1,6,4]);
+wiggleSort([3,5,2,1,6,4]);
+wiggleSort([6,6,5,6,3,8]);
