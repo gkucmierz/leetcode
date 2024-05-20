@@ -772,3 +772,35 @@ const matrixBlockSum = (mat, k) => {
 matrixBlockSum([[1,2,3],[4,5,6],[7,8,9]], 1);
 matrixBlockSum([[1,2,3],[4,5,6],[7,8,9]], 2);
 matrixBlockSum([[67,64,78],[99,98,38],[82,46,46],[6,52,55],[55,99,45]], 3);
+
+
+
+
+
+/**
+ * @param {number[]} num
+ * @param {number} k
+ * @return {number[]}
+ */
+const addToArrayForm = (num, k) => {
+  let carry = 0;
+  const rev = num.reverse();
+  let i = 0;
+  while (k || i < num.length) {
+    const mod = k % 10;
+    let n = (num[i] ?? 0) + mod + carry;
+    if (n >= 10) {
+      n -= 10;
+      carry = 1;
+    } else {
+      carry = 0;
+    }
+    num[i++] = n;
+    k = (k - mod) / 10;
+  }
+  if (carry) rev.push(1);
+  return rev.reverse();
+};
+
+addToArrayForm([2,1,5], 806);
+addToArrayForm([9,9,9,9,9,9,9,9,9,9], 1);
