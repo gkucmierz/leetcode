@@ -583,3 +583,32 @@ const wiggleSort = nums => {
 wiggleSort([3,5,2,1,6,4]);
 wiggleSort([3,5,2,1,6,4]);
 wiggleSort([6,6,5,6,3,8]);
+
+
+
+
+
+
+/**
+ * @param {string} num
+ * @return {boolean}
+ */
+const isStrobogrammatic = num => {
+  const map = {
+    6: '9',
+    9: '6',
+    8: '8',
+    0: '0',
+    1: '1',
+  };
+  const rev = [...num].map(digit => {
+    return (digit in map) ? map[digit] : '-';
+  }).reverse().join('');
+  return num === rev;
+};
+
+isStrobogrammatic('69');
+isStrobogrammatic('88');
+isStrobogrammatic('962');
+
+  
