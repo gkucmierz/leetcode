@@ -726,3 +726,49 @@ solution(n => n >= 4)(5); // 4
 solution(n => n >= 1)(1); // 1
 solution(n => n >= 4)(4); // 1
 solution(n => n >= 2126753390)(1702766719); // 1
+
+
+
+
+/**
+ * @param {number[][]} mat
+ * @param {number} k
+ * @return {number[][]}
+ */
+const matrixBlockSum = (mat, k) => {
+  const h = mat.length;
+  const w = mat[0].length;
+  const addSums = [];
+  const takeSum = (y, x) => {
+    if (y < 0 || x < 0) return 0;
+    if (y + 1 >= h) y = h - 1;
+    if (x + 1 >= w) x = w - 1;
+    return addSums[y][x];
+  };
+  for (let y = 0; y < h; ++y) {
+    addSums[y] = [];
+    for (let x = 0; x < w; ++x) {
+      const top = y === 0 ? 0 : addSums[y-1][x];
+      const left = x === 0 ? 0 : addSums[y][x-1];
+      const topleft = (x === 0 || y === 0) ? 0 : addSums[y-1][x-1];
+      addSums[y][x] = top + left - topleft + mat[y][x];
+    }
+  }
+  const res = [];
+  for (let y = 0; y < h; ++y) {
+    res[y] = [];
+    for (let x = 0; x < w; ++x) {
+      res[y][x] = [
+        takeSum(y + k, x + k),
+        takeSum(y - k - 1, x - k - 1),
+        -takeSum(y + k, x - k - 1),
+        -takeSum(y - k - 1, x + k),
+      ].reduce((a, b) => a + b);
+    }
+  }
+  return res;
+};
+
+matrixBlockSum([[1,2,3],[4,5,6],[7,8,9]], 1);
+matrixBlockSum([[1,2,3],[4,5,6],[7,8,9]], 2);
+matrixBlockSum([[67,64,78],[99,98,38],[82,46,46],[6,52,55],[55,99,45]], 3);
