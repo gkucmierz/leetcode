@@ -494,3 +494,21 @@ const findRoot = nodes => {
   });
   return nodes.filter(node => !refs.has(node))[0];
 };
+
+
+
+
+/**
+ * @param {number[][]} accounts
+ * @return {number}
+ */
+const maximumWealth = accounts => {
+  return accounts.reduce((max, acc) => {
+    const sum = acc.reduce((a, b) => a + b, 0);
+    return sum > max ? sum : max;
+  }, 0);
+};
+
+maximumWealth([[1,2,3],[3,2,1]]);
+maximumWealth([[1,5],[7,3],[3,5]]);
+maximumWealth([[2,8,7],[7,1,3],[1,9,5]]);
