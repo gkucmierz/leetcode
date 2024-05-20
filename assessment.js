@@ -612,3 +612,59 @@ isStrobogrammatic('88');
 isStrobogrammatic('962');
 
   
+
+
+
+/**
+ * @param {number} length
+ */
+const SnapshotArray = function(length) {
+  this._idxs = [];
+  this._args = [];
+  this._idx = 0;
+  this._snap2indx = new Map();
+  this._snapIdx = 0;
+};
+/** 
+ * @param {number} index 
+ * @param {number} val
+ * @return {void}
+ */
+SnapshotArray.prototype.set = function(index, val) {
+  this._idxs[this._idx] = index;
+  this._args[this._idx] = val;
+  this._idx++;
+};
+/**
+ * @return {number}
+ */
+SnapshotArray.prototype.snap = function() {
+  this._snap2indx.set(this._snapIdx, this._idx);
+  return this._snapIdx++;
+};
+/** 
+ * @param {number} index 
+ * @param {number} snap_id
+ * @return {number}
+ */
+SnapshotArray.prototype.get = function(index, snap_id) {
+  const lastIdx = this._snap2indx.get(snap_id) - 1;
+  const idx = this._idxs.lastIndexOf(index, lastIdx);
+  if (lastIdx < 0) return 0;
+  return idx === -1 ? 0 : this._args[idx];
+};
+
+// const sa = new SnapshotArray(3);
+// sa.set(0, 5);
+// sa.snap();
+// sa.set(0, 6);
+// sa.get(0, 0);
+
+// ["SnapshotArray","snap","get","get","set","get","set","get","set"]
+// [[2],[],[1,0],[0,0],[1,8],[1,0],[0,20],[0,0],[0,7]]
+const sa = new SnapshotArray(2);
+sa.snap();
+sa.get(1, 0);
+sa.get(0, 0);
+sa.set(1, 8);
+sa.get(1, 0);
