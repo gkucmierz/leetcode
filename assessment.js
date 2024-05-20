@@ -394,3 +394,43 @@ countSquares([
   [1,1,0],
   [1,1,0]
 ]); // 7
+
+
+
+
+
+// iterative solution:
+function gcd(a, b) {
+  if (a < 0) a = -a;
+  if (b < 0) b = -b;
+  if (b > a) {
+    [a, b] = [b, a];
+  }
+  while (1) {
+    if (b == 0) return a;
+    a %= b;
+    if (a == 0) return b;
+    b %= a;
+  }
+}
+/**
+ * @param {number[]} deck
+ * @return {boolean}
+ */
+const hasGroupsSizeX = deck => {
+  const map = new Map();
+  deck.map(val => {
+    const cnt = map.get(val) ?? 0;
+    map.set(val, cnt + 1);
+  });
+  const arr = [...map];
+  const quant = arr.map(([_, q]) => q);
+  const div = quant.reduce(gcd);
+  return div > 1;
+};
+
+hasGroupsSizeX([1,2,3,4,4,3,2,1]);
+hasGroupsSizeX([1,1,1,2,2,2,3,3]);
+hasGroupsSizeX([0,0,0,1,1,1,2,2,2]);
+hasGroupsSizeX([1]);
+hasGroupsSizeX([1,1,1,1,2,2,2,2,2,2]);
