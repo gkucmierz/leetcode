@@ -1310,3 +1310,44 @@ leadsToDestination(3, [[0,1],[0,2]], 0, 2); // false
 leadsToDestination(4, [[0,1],[0,3],[1,2],[2,1]], 0, 3); // false
 leadsToDestination(4, [[0,1],[0,2],[1,3],[2,3]], 0, 3); // true
 leadsToDestination(2, [[0,1],[1,1]], 0, 1); // false
+
+
+
+
+
+/**
+ * @param {number[][]} workers
+ * @param {number[][]} bikes
+ * @return {number[]}
+ */
+const assignBikes = (workers, bikes) => {
+  const calcDist = (p1, p2) => {
+    return Math.abs(p1[0] - p2[0]) + Math.abs(p1[1] - p2[1]);
+  };
+  const arr = [];
+  for (let wi = 0; wi < workers.length; ++wi) {
+    for (let bi = 0; bi < bikes.length; ++bi) {
+      const dist = calcDist(workers[wi], bikes[bi]);
+      arr.push({ dist, wi, bi });
+    }
+  }
+  const sort = arr.sort((a, b) => {
+    const dd = a.dist - b.dist;
+    if (dd !== 0) return dd;
+    const wd = a.wi - b.wi;
+    if (wd !== 0) return wd;
+    return a.bi - b.bi;
+  });
+  const workerAssign = [];
+  const bikesSet = new Set();
+  sort.map(({ wi, bi }) => {
+    if (typeof workerAssign[wi] !== 'undefined') return;
+    if (bikesSet.has(bi)) return;
+    workerAssign[wi] = bi;
+    bikesSet.add(bi);
+  });
+  return workerAssign;
+};
+
+assignBikes([[0,0],[2,1]], [[1,2],[3,3]]);
+assignBikes([[0,0],[1,1],[2,0]], [[1,0],[2,2],[2,1]]);
