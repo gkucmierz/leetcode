@@ -1269,3 +1269,44 @@ const uniqueOccurrences = arr => {
 };
 
 uniqueOccurrences([1,2,2,1,1,3]);
+
+
+
+
+
+/**
+ * @param {number} n
+ * @param {number[][]} edges
+ * @param {number} source
+ * @param {number} destination
+ * @return {boolean}
+ */
+const leadsToDestination = (n, edges, src, dest) => {
+  const map = new Map();
+  edges.map(([from, to]) => {
+    const set = map.get(from) ?? new Set();
+    set.add(to);
+    map.set(from, set);
+  });
+  const processed = new Set();
+  const loop = (curr, visited) => {
+    if (processed.has(curr)) return true;
+    if (visited.has(curr)) return false;
+    visited.add(curr);
+    const tos = map.get(curr) ?? new Set();
+    const res = [...tos].every(to => {
+      const r = loop(to, visited);
+      return r;
+    });
+    visited.delete(curr);
+    const lastRes = tos.size === 0 ? curr === dest : res;
+    processed.add(curr);
+    return lastRes;
+  };
+  return loop(src, new Set());
+};
+
+leadsToDestination(3, [[0,1],[0,2]], 0, 2); // false
+leadsToDestination(4, [[0,1],[0,3],[1,2],[2,1]], 0, 3); // false
+leadsToDestination(4, [[0,1],[0,2],[1,3],[2,3]], 0, 3); // true
+leadsToDestination(2, [[0,1],[1,1]], 0, 1); // false
