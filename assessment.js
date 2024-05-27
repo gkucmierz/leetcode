@@ -1076,3 +1076,49 @@ MovingAverage.prototype.next = function(val) {
  * var obj = new MovingAverage(size)
  * var param_1 = obj.next(val)
  */
+
+
+
+
+
+/**
+ * @param {number[][]} mat
+ * @return {number}
+ */
+const longestLine = mat => {
+  const h = mat.length;
+  const w = mat[0].length;
+  let max = 0;
+  // horiz
+  for (let y = 0; y < h; ++y) {
+    let cnt = 0;
+    for (let x = 0; x < w; ++x) {
+      cnt = mat[y][x] === 1 ? cnt + 1 : 0;
+      if (cnt > max) max = cnt;
+    }
+  }
+  // vert
+  for (let x = 0; x < w; ++x) {
+    let cnt = 0;
+    for (let y = 0; y < h; ++y) {
+      cnt = mat[y][x] === 1 ? cnt + 1 : 0;
+      if (cnt > max) max = cnt;
+    }
+  }
+  // diag
+  for (let x = 1 - h; x < w; ++x) {
+    let [cnt0, cnt1] = [0, 0];
+    for (let y = 0; y < h; ++y) {
+      const vx = x + y;
+      if (vx < 0 || vx >= w) continue;
+      cnt0 = mat[y][vx] === 1 ? cnt0 + 1 : 0;
+      cnt1 = mat[h - y - 1][vx] === 1 ? cnt1 + 1 : 0;
+      if (cnt0 > max) max = cnt0;
+      if (cnt1 > max) max = cnt1;
+    }
+  }
+  return max;
+};
+
+longestLine([[0,1,1,0],[0,1,1,0],[0,0,0,1]]);
+longestLine([[1,1,1,1],[0,1,1,0],[0,0,0,1]]);
