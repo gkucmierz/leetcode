@@ -1351,3 +1351,30 @@ const assignBikes = (workers, bikes) => {
 
 assignBikes([[0,0],[2,1]], [[1,2],[3,3]]);
 assignBikes([[0,0],[1,1],[2,0]], [[1,0],[2,2],[2,1]]);
+
+
+
+
+
+var Logger = function() {
+  this._lastPrint = new Map();
+};
+
+/** 
+ * @param {number} timestamp 
+ * @param {string} message
+ * @return {boolean}
+ */
+Logger.prototype.shouldPrintMessage = function(timestamp, message) {
+  const MAX = 10;
+  const time = this._lastPrint.get(message) ?? -Infinity;
+  if (time + MAX > timestamp) return false;
+  this._lastPrint.set(message, timestamp);
+  return true;
+};
+
+/** 
+ * Your Logger object will be instantiated and called as such:
+ * var obj = new Logger()
+ * var param_1 = obj.shouldPrintMessage(timestamp,message)
+ */
