@@ -1207,3 +1207,44 @@ const backspaceCompare = (s, t) => {
 backspaceCompare("ab#c", "ad#c");
 backspaceCompare("ab##", "c#d#");
 backspaceCompare("a#c", "b");
+
+
+
+
+
+// linear complexity O(n)
+/**
+ * @param {string} boxes
+ * @return {number[]}
+ */
+const minOperations = boxes => {
+  const len = boxes.length;
+  const calcCosts = arr => {
+    const costs = [];
+    const balls = [];
+    balls[-1] = 0;
+    costs[-1] = 0;
+    for (let i = 0; i < len; ++i) {
+      const ball = arr[i] === '1';
+      if (ball) {
+        balls[i] = balls[i-1] + 1;
+        costs[i] = costs[i-1] + balls[i-1];
+      } else {
+        balls[i] = balls[i-1];
+        costs[i] = costs[i-1] + balls[i-1];
+      }
+    }
+    return costs;
+  };
+  const arr = [...boxes];
+  const costsStraight = calcCosts(arr);
+  const costsReverse = calcCosts(arr.reverse()).reverse();
+  const res = [];
+  for (let i = 0; i < len; ++i) {
+    res[i] = costsReverse[i] + costsStraight[i];
+  }
+  return res;
+};
+
+minOperations('110');
+minOperations('001011');
