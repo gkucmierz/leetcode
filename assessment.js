@@ -875,3 +875,38 @@ const diStringMatch = s => {
 diStringMatch('IDID');
 diStringMatch('III');
 diStringMatch('DDI');
+
+
+
+
+/**
+ * @param {number[]} tops
+ * @param {number[]} bottoms
+ * @return {number}
+ */
+const minDominoRotations = (tops, bottoms) => {
+  const size = tops.length;
+  const map = new Map();
+  const inc = val => {
+    const cnt = map.get(val) ?? 0;
+    map.set(val, cnt + 1);
+  };
+  for (let i = 0; i < size; ++i) {
+    const [t, b] = [tops[i], bottoms[i]];
+    if (t !== b) inc(b);
+    inc(t);
+  }
+  const first = [...map].sort((a, b) => b[1] - a[1])[0];
+  if (first[1] < size) return -1;
+  const val = first[0];
+  let [tcnt, bcnt] = [0, 0];
+  for (let i = 0; i < size; ++i) {
+    const [t, b] = [tops[i], bottoms[i]];
+    if (t === val) ++tcnt;
+    if (b === val) ++bcnt;
+  }
+  return size - Math.max(tcnt, bcnt);
+};
+
+minDominoRotations([2,1,2,4,2,2], [5,2,6,2,3,2]);
+minDominoRotations([3,5,1,2,3], [3,6,3,3,4]);
