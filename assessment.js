@@ -1248,3 +1248,24 @@ const minOperations = boxes => {
 
 minOperations('110');
 minOperations('001011');
+
+
+
+
+
+
+
+/**
+ * @param {number[]} arr
+ * @return {boolean}
+ */
+const uniqueOccurrences = arr => {
+  const map = new Map();
+  arr.map(val => {
+    const cnt = map.get(val) ?? 0;
+    map.set(val, cnt + 1);
+  });
+  return new Set([...map].map(([_, occ]) => occ)).size === map.size;
+};
+
+uniqueOccurrences([1,2,2,1,1,3]);
