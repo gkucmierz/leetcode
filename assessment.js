@@ -849,3 +849,29 @@ const correctBinaryTree = root => {
   fix(root);
   return root;
 };
+
+
+
+
+
+
+/**
+ * @param {string} s
+ * @return {number[]}
+ */
+const diStringMatch = s => {
+  const arr = new Array(s.length + 1).fill(0).map((_, i) => i);
+  const dcnt = [...s].filter(ch => ch === 'D').length;
+  const res = [];
+  let p = dcnt;
+  res.push(arr.splice(p, 1)[0]);
+  for (const ch of s) {
+    if (ch === 'D') --p;
+    res.push(arr.splice(p, 1)[0]);
+  }
+  return res;
+};
+
+diStringMatch('IDID');
+diStringMatch('III');
+diStringMatch('DDI');
