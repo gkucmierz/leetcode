@@ -910,3 +910,35 @@ const minDominoRotations = (tops, bottoms) => {
 
 minDominoRotations([2,1,2,4,2,2], [5,2,6,2,3,2]);
 minDominoRotations([3,5,1,2,3], [3,6,3,3,4]);
+
+
+
+
+
+// not correct space complexity
+/**
+ * @param {number[]} arr
+ * @return {void} Do not return anything, modify arr in-place instead.
+ */
+const duplicateZeros = arr => {
+  const res = [];
+  let skip = 0;
+  for (let i = 0; res.length < arr.length; ++i) {
+    const val = arr[i];
+    res.push(val);
+    if (val === 0 && res.length < arr.length) {
+      res.push(val);
+    }
+  }
+  for (let i = 0; i < res.length; ++i) {
+    arr[i] = res[i];
+  }
+  return arr;
+};
+
+duplicateZeros([1,0,2,3,0,4,5,0]);
+duplicateZeros([1,2,3]);
+duplicateZeros([0, 0, 0]);
+duplicateZeros([8,4,5,0,0,0,0,7]);
+duplicateZeros([0,4,1,0,0,8,0,0,3]);
+duplicateZeros([9,9,9,4,8,0,0,3,7,2,0,0,0,0,9,1,0,0,1,1,0,5,6,3,1,6,0,0,2,3,4,7,0,3,9,3,6,5,8,9,1,1,3,2,0,0,7,3,3,0,5,7,0,8,1,9,6,3,0,8,8,8,8,0,0,5,0,0,0,3,7,7,7,7,5,1,0,0,8,0,0]);
