@@ -942,3 +942,60 @@ duplicateZeros([0, 0, 0]);
 duplicateZeros([8,4,5,0,0,0,0,7]);
 duplicateZeros([0,4,1,0,0,8,0,0,3]);
 duplicateZeros([9,9,9,4,8,0,0,3,7,2,0,0,0,0,9,1,0,0,1,1,0,5,6,3,1,6,0,0,2,3,4,7,0,3,9,3,6,5,8,9,1,1,3,2,0,0,7,3,3,0,5,7,0,8,1,9,6,3,0,8,8,8,8,0,0,5,0,0,0,3,7,7,7,7,5,1,0,0,8,0,0]);
+
+
+
+
+
+/**
+ * @param {string} s
+ * @param {string[]} words
+ * @return {string}
+ */
+const addBoldTag = (s, words) => {
+  const mergeOverlaps = ranges => {
+    for (let i = 1; i < ranges.length; ++i) {
+      if (ranges[i][0] <= ranges[i-1][1]) {
+        ranges[i][0] = ranges[i-1][0];
+        ranges[i][1] = Math.max(ranges[i][1], ranges[i-1][1]);
+        ranges.splice(i-1, 1);
+        --i;
+      }
+    }
+    return ranges;
+  };
+  const ranges = words.map(word => {
+    let i = 0;
+    const ranges = [];
+    while (1) {
+      const idx = s.indexOf(word, i);
+      if (idx === -1) break;
+      ranges.push([idx, idx + word.length]);
+      i = idx + 1;
+    }
+    return mergeOverlaps(ranges);
+  });
+  const concat = [].concat(...ranges);
+  const sort = concat.sort((a, b) => a[0] - b[0]);
+  const merged = mergeOverlaps(sort);
+  if (merged.length === 0) return s;
+  const res = [];
+  if (merged.length) {
+    res.push(s.slice(0, merged[0][0]));
+    res.push('<b>', s.slice(merged[0][0], merged[0][1]), '</b>');
+  }
+  for (let i = 1; i < merged.length; ++i) {
+    res.push(s.slice(merged[i-1][1], merged[i][0]));
+    res.push('<b>', s.slice(merged[i][0], merged[i][1]), '</b>');
+  }
+  if (merged.length) {
+    res.push(s.slice(merged.at(-1)[1]));
+  }
+  return res.join('');
+};
+
+addBoldTag("abcxyz123", ["abc","123"]);
+addBoldTag("aaabbb", ["aa","b"]);
+addBoldTag("aaabbcc", ["aaa","aab","bc","aaabbcc"]);
+addBoldTag("aaabbcc", []);
+addBoldTag("aaabbcc", ['d']);
