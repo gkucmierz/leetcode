@@ -1122,3 +1122,62 @@ const longestLine = mat => {
 
 longestLine([[0,1,1,0],[0,1,1,0],[0,0,0,1]]);
 longestLine([[1,1,1,1],[0,1,1,0],[0,0,0,1]]);
+
+
+
+
+
+
+// binary search without cache nodes
+// pretty complicated (could be simplified)
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+const countNodes = root => {
+  if (!root) return 0;
+  if (!root.left && !root.right) return 1;
+  const measureLeft = (node) => {
+    let lvl = 0;
+    while (node) {
+      node = node.left;
+      ++lvl;
+    }
+    return lvl;
+  };
+  const measure2 = (node, code2, i) => {
+    let lvl = 0;
+    while (node) {
+      --i;
+      const bit = (2 ** i) & code2;
+      node = bit ? node.right : node.left;
+      ++lvl;
+    }
+    return lvl;
+  };
+  const lvl = measureLeft(root);
+  let min = 2 ** (lvl - 1);
+  let max = 2 ** lvl - 1;
+  let last;
+  let mid = -1;
+  while (min < max) {
+    mid = (min + max) / 2 | 0;
+    if (last === mid) break;
+    last = mid;
+    const tmp = measure2(root, mid, lvl - 1);
+    if (tmp < lvl) {
+      max = mid;
+    } else {
+      min = mid;
+    }
+  }
+  return measure2(root, min + 1, lvl - 1) === lvl ? min + 1 : min;
+};
