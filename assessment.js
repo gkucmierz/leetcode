@@ -1048,3 +1048,31 @@ findMissingRanges([0,1,3,50,75], 0, 99);
 findMissingRanges([], 1, 1);
 findMissingRanges([-1], -2, -1); // [[-2, -2]]
 findMissingRanges([-1], -1, 0); // [[0, 0]]
+
+
+
+
+
+/**
+ * @param {number} size
+ */
+const MovingAverage = function(size) {
+  this._size = size;
+  this._vals = [];
+};
+/** 
+ * @param {number} val
+ * @return {number}
+ */
+MovingAverage.prototype.next = function(val) {
+  this._vals.push(val);
+  if (this._vals.length > this._size) {
+    this._vals.shift();
+  }
+  return this._vals.reduce((a, b) => a + b, 0) / this._vals.length;
+};
+/** 
+ * Your MovingAverage object will be instantiated and called as such:
+ * var obj = new MovingAverage(size)
+ * var param_1 = obj.next(val)
+ */
