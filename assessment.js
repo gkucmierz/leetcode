@@ -804,3 +804,48 @@ const addToArrayForm = (num, k) => {
 
 addToArrayForm([2,1,5], 806);
 addToArrayForm([9,9,9,9,9,9,9,9,9,9], 1);
+
+
+
+
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} from
+ * @param {number} to
+ * @return {TreeNode}
+ */
+const correctBinaryTree = root => {
+  const map = new Map();
+  const checkLvls = (node, lvl = 0) => {
+    if (!node) return;
+    map.set(node, lvl++);
+    checkLvls(node.left, lvl);
+    checkLvls(node.right, lvl);
+  };
+  checkLvls(root);
+  const fix = (node, lvl = 0) => {
+    if (!node) return true;
+    if (!fix(node.left, lvl + 1)) {
+      node.left = null;
+    }
+    if (map.get(node.right) === lvl) {
+      return false;
+    } else {
+      if (!fix(node.right, lvl + 1)) {
+        node.right = null;
+      }
+    }
+    return true;
+  };
+  fix(root);
+  return root;
+};
