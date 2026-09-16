@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+# Extension keys and builds
+*.pem
+*.pub
+*.key
+*.crx
